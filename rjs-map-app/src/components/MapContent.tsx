@@ -6,7 +6,7 @@ const [lat, lng] = [51.505, -0.09]
 
 export const MapContent = () => {
     const metadata = useLeafLetCenter({ lat, lng, zoom: 13 })
-    const markers = useLeafletMarkers([])
+    const { markers } = useLeafletMarkers([])
 
     return (
         <>
