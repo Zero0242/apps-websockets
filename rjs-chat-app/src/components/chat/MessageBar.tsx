@@ -1,13 +1,22 @@
+import { useContext } from 'react'
+import { AuthContext, ChatContext, SocketContext } from '../../context'
 import { useForm } from '../../hooks'
 
 export const MessageBar = () => {
     const { handleChange, message, changeForm } = useForm({ message: '' })
+    const { socket } = useContext(SocketContext)
+    const { usuario } = useContext(AuthContext)
+    const { state: { activeChat } } = useContext(ChatContext)
 
     const onSubmit = (ev: any) => {
         ev.preventDefault()
         if (message.length < 3) return;
 
         console.log(`message ${message}`);
+
+        const emition = { de: usuario!.id, para: activeChat!, body: message }
+
+        socket?.emit('chat:mensaje-personal', emition)
 
 
         changeForm({ message: '' })
