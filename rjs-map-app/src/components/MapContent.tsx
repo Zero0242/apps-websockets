@@ -25,6 +25,16 @@ export const MapContent = () => {
     }, [socket])
 
     useEffect(() => {
+        socket?.on(MapEvent.mover, (updated) => {
+            updateMarker(updated, true)
+        })
+        return () => {
+            socket?.off(MapEvent.mover)
+        }
+    }, [socket])
+
+
+    useEffect(() => {
         nuevoMarker$.subscribe(nuevo => {
             socket?.emit(MapEvent.crear, nuevo)
             console.log(nuevo);

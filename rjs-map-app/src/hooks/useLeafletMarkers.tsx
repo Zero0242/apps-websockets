@@ -21,12 +21,12 @@ export const useLeafletMarkers = (initialMarkers: Marcador[]) => {
         setMarkers(current => [...current, nuevo])
     }
 
-    const updateMarker = ({ id, lat, lng }: Marcador) => {
+    const updateMarker = ({ id, lat, lng }: Marcador, originWS = false) => {
         setMarkers(current => current.map(e => {
             if (e.id !== id) return e;
             return { ...e, lat, lng } satisfies Marcador
         }))
-        moverMarcador.current.next({ id, lat, lng })
+        if (!originWS) moverMarcador.current.next({ id, lat, lng })
     }
 
     const regenerateMarkers = (nuevos: Marcador[]) => {
