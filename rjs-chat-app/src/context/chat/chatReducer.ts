@@ -8,7 +8,7 @@ export interface ChatState {
 }
 
 export type ChatAction =
-	| { type: "foo" }
+	| { type: "remove-cache" }
 	| { type: "set-active-chat"; payload: number }
 	| { type: "set-usuarios"; payload: Usuario[] }
 	| { type: "set-mensajes"; payload: Mensaje[] }
@@ -19,6 +19,13 @@ export const chatReducer = (
 	action: ChatAction
 ): ChatState => {
 	switch (action.type) {
+		case "remove-cache":
+			return {
+				...state,
+				activeChat: undefined,
+				usuarios: [],
+				mensajes: [],
+			};
 		case "set-active-chat":
 			if (state.activeChat === action.payload) return state;
 			return {

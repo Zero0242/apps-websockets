@@ -1,13 +1,15 @@
 import { useContext } from "react"
 import { useNavigate } from "react-router-dom"
-import { AuthContext } from "../../context"
+import { AuthContext, ChatContext } from "../../context"
 
 export function SearchBox() {
     const { startLogout } = useContext(AuthContext)
+    const { dispatch } = useContext(ChatContext)
     const navigate = useNavigate()
 
     const handleLogout = () => {
         startLogout()
+        dispatch({ type: 'remove-cache' })
         navigate('/auth/login')
     }
 
