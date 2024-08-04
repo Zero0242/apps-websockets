@@ -1,2 +1,3 @@
-export * from "./useLeafLetCenter";
+export * from "./useLeafletCenter";
+export * from "./useLeafletMarkers";
 export * from "./useSocket";
