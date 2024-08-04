@@ -35,6 +35,11 @@ export const SocketProvider = ({ children }: any) => {
             dispatch({ type: 'set-usuarios', payload: usuarios as Usuario[] })
         })
     }, [socket, dispatch])
+    useEffect(() => {
+        socket?.on('chat:mensaje-personal', (mensaje) => {
+            console.log({ mensaje });
+        })
+    }, [socket, dispatch])
 
 
 
