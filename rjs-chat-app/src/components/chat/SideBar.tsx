@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { scrollToBottom } from "react-scroll/modules/mixins/animate-scroll";
 import { AuthContext, ChatContext } from "../../context";
 import * as UseCases from "../../core/usecases/chat";
 import { ChatTile } from "./ChatTile";
@@ -15,8 +16,11 @@ export function SideBar() {
 
         const mensajes = await UseCases.getMessagesUseCase(id)
         dispatch({ type: 'set-mensajes', payload: mensajes })
-
+        scrollToBottom('MessageList')
     }
+
+
+
 
     return (
         <>

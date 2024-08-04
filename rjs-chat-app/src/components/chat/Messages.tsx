@@ -14,7 +14,7 @@ export const Messages = () => {
             <div className="mesgs">
 
                 {/* <!-- Historia inicio --> */}
-                <div className="msg_history">
+                <div className="msg_history" id='MessageList'>
                     {
                         mensajes.map((e) => (
                             <MessageItem
