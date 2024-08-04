@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { AuthContext, ChatContext } from "../../context";
+import * as UseCases from "../../core/usecases/chat";
 import { ChatTile } from "./ChatTile";
 
 
@@ -8,8 +9,13 @@ export function SideBar() {
     const { dispatch, state } = useContext(ChatContext)
     const { usuarios, activeChat } = state
 
-    const setActive = (id: number) => {
+    const setActive = async (id: number) => {
+        if (activeChat === id) return;
         dispatch({ type: 'set-active-chat', payload: id })
+
+        const mensajes = await UseCases.getMessagesUseCase(id)
+        dispatch({ type: 'set-mensajes', payload: mensajes })
+
     }
 
     return (
