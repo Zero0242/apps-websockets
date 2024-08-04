@@ -93,17 +93,19 @@ export class SocketServer {
   mapEvents(socket) {
 
     // * Recupera los marcadores para el cliente
-    socket.emit("marker:fetch", this.markerService.activos);
+    socket.emit(MapEvent.listar, this.markerService.activos);
 
-    socket.on("marker:create", (marker) => {
+    socket.on(MapEvent.crear, (marker) => {
       const insert = this.markerService.agregarMarcador(marker);
+      console.log(JSON.stringify(this.markerService.activos, null, 4));
 
-      socket.broadcast.emit("marker:create", insert);
+
+      socket.broadcast.emit(MapEvent.crear, insert);
     });
 
-    socket.on("marker:update", (marcador) => {
+    socket.on(MapEvent.mover, (marcador) => {
       this.markerService.actualizarMarcador(marcador);
-      socket.broadcast.emit("marker:update", marcador);
+      socket.broadcast.emit(MapEvent.mover, marcador);
     });
   }
 }
@@ -120,3 +122,11 @@ const IOEvent = Object.freeze({
   update: "update-band",
   bands: "current-bands",
 });
+
+
+/* Mapas */
+const MapEvent = Object.freeze({
+  listar: 'marker:get',
+  crear: 'marker:create',
+  mover: 'marker:update'
+})
