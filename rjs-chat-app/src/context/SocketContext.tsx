@@ -1,8 +1,10 @@
 import { createContext, useContext, useEffect } from "react";
 import type { Socket } from "socket.io-client";
 import { getEnvs } from "../core/helpers";
+import { Usuario } from "../core/interfaces";
 import { useSocket } from "../hooks";
 import { AuthContext } from "./AuthContext";
+import { ChatContext } from "./chat/ChatContext";
 
 interface ContextProps {
     online: boolean
@@ -14,14 +16,27 @@ export const SocketContext = createContext({} as ContextProps)
 export const SocketProvider = ({ children }: any) => {
     const { online, socket, conectar, desconectar } = useSocket(getEnvs().API_URL)
     const { status } = useContext(AuthContext)
+    const { dispatch } = useContext(ChatContext)
 
     useEffect(() => {
         if (status === 'connected') {
             conectar()
-        } else {
+        }
+    }, [status, conectar])
+
+    useEffect(() => {
+        if (status !== 'connected') {
             desconectar()
         }
-    }, [status])
+    }, [status, desconectar])
+
+    useEffect(() => {
+        socket?.on('chat:usuarios', (usuarios) => {
+            dispatch({ type: 'set-usuarios', payload: usuarios as Usuario[] })
+        })
+    }, [socket, dispatch])
+
+
 
 
 

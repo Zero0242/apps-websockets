@@ -1,14 +1,16 @@
 import { RouterProvider } from "react-router-dom"
-import { AuthProvider, SocketProvider } from "./context"
+import { AuthProvider, ChatProvider, SocketProvider } from "./context"
 import { router } from "./router/router"
 
 export const ChatApp = () => {
     return (
         <>
             <AuthProvider>
-                <SocketProvider>
-                    <RouterProvider router={router} />
-                </SocketProvider>
+                <ChatProvider>
+                    <SocketProvider>
+                        <RouterProvider router={router} />
+                    </SocketProvider>
+                </ChatProvider>
             </AuthProvider>
         </>
     )
