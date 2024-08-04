@@ -4,6 +4,12 @@ import { Subject } from 'rxjs'
 import { v4 as uuid } from 'uuid'
 import type { Marcador } from '../interfaces'
 
+interface NuevoMarcador {
+    id?: string;
+    lat: number;
+    lng: number;
+}
+
 export const useLeafletMarkers = (initialMarkers: Marcador[]) => {
     const [markers, setMarkers] = useState<Marcador[]>(initialMarkers)
     const moverMarcador = useRef(new Subject<Marcador>())
@@ -11,14 +17,14 @@ export const useLeafletMarkers = (initialMarkers: Marcador[]) => {
 
     useMapEvent('click', (e) => {
         const { lat, lng } = e.latlng
-        addMarker(lat, lng)
+        addMarker({ lat, lng })
 
     })
 
-    const addMarker = (lat: number, lng: number) => {
-        const nuevo = { id: uuid(), lat, lng } satisfies Marcador
-        nuevoMarker.current.next(nuevo)
+    const addMarker = ({ id, lat, lng }: NuevoMarcador) => {
+        const nuevo = { id: id ?? uuid(), lat, lng } satisfies Marcador
         setMarkers(current => [...current, nuevo])
+        if (!id) nuevoMarker.current.next(nuevo)
     }
 
     const updateMarker = ({ id, lat, lng }: Marcador, originWS = false) => {

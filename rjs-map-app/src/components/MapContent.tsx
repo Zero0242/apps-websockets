@@ -1,53 +1,12 @@
-import React, { useContext, useEffect } from 'react'
+import React from 'react'
 import { Popup } from "react-leaflet"
-import { SocketContext } from '../context'
-import { MapEvent } from '../helpers'
-import { useLeafLetCenter } from "../hooks"
-import { useLeafletMarkers } from '../hooks/useLeafletMarkers'
-import { Marcador } from '../interfaces'
+import { useLeafLetCenter, useWSMarkers } from "../hooks"
 import { DraggableMarker } from "./DraggableMarker"
 
 const [lat, lng] = [51.505, -0.09]
 
 export const MapContent = () => {
-    const { markers, updateMarker, moverMarcador$, nuevoMarker$, regenerateMarkers } = useLeafletMarkers([])
-    const { socket } = useContext(SocketContext)
-
-    useEffect(() => {
-        socket?.on(MapEvent.listar, (marcadores: Record<string, Marcador>) => {
-            const servermarkers = Object.values(marcadores)
-            regenerateMarkers(servermarkers)
-        })
-
-        return () => {
-            socket?.off(MapEvent.listar)
-        }
-    }, [socket])
-
-    useEffect(() => {
-        socket?.on(MapEvent.mover, (updated) => {
-            updateMarker(updated, true)
-        })
-        return () => {
-            socket?.off(MapEvent.mover)
-        }
-    }, [socket])
-
-
-    useEffect(() => {
-        nuevoMarker$.subscribe(nuevo => {
-            socket?.emit(MapEvent.crear, nuevo)
-            console.log(nuevo);
-        })
-    }, [nuevoMarker$, socket])
-
-    useEffect(() => {
-        moverMarcador$.subscribe(movido => {
-            socket?.emit(MapEvent.mover, movido)
-        })
-    }, [moverMarcador$, socket])
-
-
+    const { markers, updateMarker } = useWSMarkers([])
 
     return (
         <>
