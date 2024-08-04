@@ -23,89 +23,77 @@ export class SocketServer {
       this.bandEvents(socket)
       this.mapEvents(socket)
       this.colasEvents(socket)
+      socket.on("disconnect", (r) => {
+        this.logger.log(`Se desconectó: ${socket.id} - ${r}`);
+      });
     });
   }
 
   /* Bandas App */
+  /** @param {import("socket.io").Socket} socket*/
   bandEvents(socket) {
     // * Evento bandas actuales
-    socket.emit(IOEvent.bands, this.bandList.getBands());
+    socket.emit(WSBandsEvents.listar, this.bandList.getBands());
 
     // * Recibiendo evento votos
-    socket.on(IOEvent.vote, (id) => {
+    socket.on(WSBandsEvents.votar, (id) => {
       this.bandList.increaseVotes(id);
-      this.emitBandList();
+      this.io.emit(WSBandsEvents.listar, this.bandList.getBands());
     });
     // * Eliminar banda
-    socket.on(IOEvent.delete, (id) => {
+    socket.on(WSBandsEvents.eliminar, (id) => {
       this.bandList.removeBand(id);
-      this.emitBandList();
+      this.io.emit(WSBandsEvents.listar, this.bandList.getBands());
     });
     // * Actualizar banda
-    socket.on(IOEvent.update, ({ id, name }) => {
+    socket.on(WSBandsEvents.actualizar, ({ id, name }) => {
       this.bandList.changeBandName({ id, name });
-      this.emitBandList();
+      this.io.emit(WSBandsEvents.listar, this.bandList.getBands());
     });
     // * Crear banda
-    socket.on(IOEvent.add, (nombre) => {
+    socket.on(WSBandsEvents.crear, (nombre) => {
       this.bandList.addBand(nombre);
-      this.emitBandList();
+      this.io.emit(WSBandsEvents.listar, this.bandList.getBands());
     });
-
-    socket.on(IOEvent.disconnect, (reason) => {
-      this.logger.log(`Usuario desconectado: ${reason}`);
-    });
-  }
-
-
-  emitBandList() {
-    this.io.emit(IOEvent.bands, this.bandList.getBands());
   }
 
   /* Colas App  */
+  /** @param {import("socket.io").Socket} socket*/
   colasEvents(socket) {
-
-    socket.on("ticket:solicitar", (payload, callback) => {
+    // * Solicitan un numero
+    socket.on(WSColasEvent.solicitar, (payload, callback) => {
       const nuevoTicket = this.ticketService.crearTicket();
-      // * Recibimos un callback desde el frontend y lo ejecutamos aca
+      // ? Ejecutamos un callback del frontend
       callback(nuevoTicket);
     });
 
-    socket.on("ticket:siguiente", (data, callback) => {
+    // * El agente pasa al siguiente numero
+    socket.on(WSColasEvent.siguiente, (data, callback) => {
       const { agente, escritorio } = data;
-      const suTicket = this.ticketService.asignarTicket(
-        agente,
-        Number(escritorio)
-      );
-
+      const suTicket = this.ticketService.asignarTicket(agente, +escritorio);
+      // ? Ejecutamos un callback del frontend
       callback(suTicket);
-
       // * Notificar usuarios
-      this.io.emit("ticket:listado", this.ticketService.ultimos13);
-    });
-
-    socket.on("disconnect", (r) => {
-      this.logger.log(`Se desconectó: ${socket.id} - ${r}`);
+      this.io.emit(WSColasEvent.listar, this.ticketService.ultimos13);
     });
   }
 
   /*  Mapas App */
+  /** @param {import("socket.io").Socket} socket*/
   mapEvents(socket) {
-
     // * Recupera los marcadores para el cliente
-    socket.emit(MapEvent.listar, this.markerService.activos);
+    socket.emit(WSMapsEvent.listar, this.markerService.activos);
 
-    socket.on(MapEvent.crear, (marker) => {
+    // * Alguien crea el marker y avisa a los demas
+    socket.on(WSMapsEvent.crear, (marker) => {
       const insert = this.markerService.agregarMarcador(marker);
-      console.log(JSON.stringify(this.markerService.activos, null, 4));
-
-
-      socket.broadcast.emit(MapEvent.crear, insert);
+      socket.broadcast.emit(WSMapsEvent.crear, insert);
     });
 
-    socket.on(MapEvent.mover, (marcador) => {
+    // * Alguien mueve el marker y avisa a los demas
+    socket.on(WSMapsEvent.mover, (marcador) => {
       this.markerService.actualizarMarcador(marcador);
-      socket.broadcast.emit(MapEvent.mover, marcador);
+      socket.broadcast.emit(WSMapsEvent.mover, marcador);
     });
   }
 }
@@ -113,19 +101,23 @@ export class SocketServer {
 
 
 /* Bandas */
-const IOEvent = Object.freeze({
-  connect: "connection",
-  disconnect: "disconnect",
-  vote: "vote-band",
-  delete: "delete-band",
-  add: "add-band",
-  update: "update-band",
-  bands: "current-bands",
+const WSBandsEvents = Object.freeze({
+  votar: "vote-band",
+  eliminar: "delete-band",
+  crear: "add-band",
+  actualizar: "update-band",
+  listar: "current-bands",
 });
 
+/* Colas */
+const WSColasEvent = Object.freeze({
+  solicitar: "ticket:solicitar",
+  siguiente: "ticket:siguiente",
+  listar: "ticket:listado"
+})
 
 /* Mapas */
-const MapEvent = Object.freeze({
+const WSMapsEvent = Object.freeze({
   listar: 'marker:get',
   crear: 'marker:create',
   mover: 'marker:update'
