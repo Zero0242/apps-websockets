@@ -2,5 +2,28 @@ body {
 	margin: 0;
 }
 #map {
-	height: 100vh;
+	/* height: 100vh; */
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	position: absolute;
+}
+
+#metadata {
+	z-index: 999;
+	padding: 10px;
+	background-color: white;
+	color: black;
+	position: absolute;
+	justify-content: center;
+	align-items: center;
+	left: calc(100vw * 0.4);
+	top: 20px;
+	border-radius: 20px;
+}
+
+#metadata p {
+	font-weight: bold;
+	font-size: medium;
 }
