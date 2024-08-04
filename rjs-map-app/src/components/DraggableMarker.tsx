@@ -13,7 +13,7 @@ export function DraggableMarker({ children, position, onDrag }: Props) {
 
     const markerRef = useRef<any>(null)
     const eventHandlers = useMemo(() => ({
-        dragend() {
+        drag() {
             const marker = markerRef.current
             if (marker != null) {
                 const event = marker.getLatLng()
