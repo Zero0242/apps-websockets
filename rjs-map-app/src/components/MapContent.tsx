@@ -4,16 +4,19 @@ import { SocketContext } from '../context'
 import { MapEvent } from '../helpers'
 import { useLeafLetCenter } from "../hooks"
 import { useLeafletMarkers } from '../hooks/useLeafletMarkers'
+import { Marcador } from '../interfaces'
 import { DraggableMarker } from "./DraggableMarker"
 
 const [lat, lng] = [51.505, -0.09]
 
 export const MapContent = () => {
-    const { markers, updateMarker, moverMarcador$, nuevoMarker$ } = useLeafletMarkers([])
+    const { markers, updateMarker, moverMarcador$, nuevoMarker$, regenerateMarkers } = useLeafletMarkers([])
     const { socket } = useContext(SocketContext)
 
     useEffect(() => {
-        socket?.on(MapEvent.listar, (marcadores) => {
+        socket?.on(MapEvent.listar, (marcadores: Record<string, Marcador>) => {
+            const servermarkers = Object.values(marcadores)
+            regenerateMarkers(servermarkers)
         })
 
         return () => {
