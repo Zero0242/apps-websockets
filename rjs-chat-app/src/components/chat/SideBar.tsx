@@ -1,9 +1,10 @@
 import { useContext } from "react";
-import { ChatContext } from "../../context";
+import { AuthContext, ChatContext } from "../../context";
 import { ChatTile } from "./ChatTile";
 
 
 export function SideBar() {
+    const { usuario } = useContext(AuthContext)
     const { dispatch, state } = useContext(ChatContext)
     const { usuarios, activeChat } = state
 
@@ -15,7 +16,7 @@ export function SideBar() {
         <>
             <div className="inbox_chat">
                 {
-                    usuarios.map(params => (
+                    usuarios.filter((e) => e.id !== usuario?.id).map(params => (
                         <ChatTile
                             key={JSON.stringify(params)}
                             avatar={params.avatar}

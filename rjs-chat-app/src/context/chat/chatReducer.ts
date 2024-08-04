@@ -19,9 +19,11 @@ export const chatReducer = (
 ): ChatState => {
 	switch (action.type) {
 		case "set-active-chat":
+			if (state.activeChat === action.payload) return state;
 			return {
 				...state,
 				activeChat: action.payload,
+				mensajes: [],
 			};
 		case "set-mensajes":
 			return {
