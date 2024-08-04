@@ -13,7 +13,7 @@ export const useSocket = (path: string) => {
             forceNew: true,
             autoConnect: true,
             auth: {
-                ['Authorization']: 'asdas'
+                ['ws-token']: localStorage.getItem('authToken')
             }
         })
         setSocket(client)
