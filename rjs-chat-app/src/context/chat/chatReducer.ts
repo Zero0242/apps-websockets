@@ -1,17 +1,18 @@
-import { Usuario } from "../../core/interfaces";
+import type { Mensaje, Usuario } from "../../core/interfaces";
 
 export interface ChatState {
 	uid: number;
 	activeChat: number | undefined;
 	usuarios: Usuario[];
-	mensajes: any[];
+	mensajes: Mensaje[];
 }
 
 export type ChatAction =
 	| { type: "foo" }
 	| { type: "set-active-chat"; payload: number }
 	| { type: "set-usuarios"; payload: Usuario[] }
-	| { type: "set-mensajes"; payload: any[] };
+	| { type: "set-mensajes"; payload: Mensaje[] }
+	| { type: "set-nuevo-mensaje"; payload: Mensaje };
 
 export const chatReducer = (
 	state: ChatState,
@@ -30,6 +31,17 @@ export const chatReducer = (
 				...state,
 				mensajes: action.payload,
 			};
+		case "set-nuevo-mensaje":
+			if (
+				state.activeChat === action.payload.recipientId ||
+				state.activeChat === action.payload.senderId
+			) {
+				return {
+					...state,
+					mensajes: [...state.mensajes, action.payload],
+				};
+			}
+			return state;
 		case "set-usuarios":
 			return {
 				...state,

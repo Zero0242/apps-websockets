@@ -1,35 +1,31 @@
+import { useContext } from 'react'
+import { AuthContext, ChatContext } from '../../context'
 import { MessageBar } from './MessageBar'
 import { MessageItem } from './MessageItem'
 
 export const Messages = () => {
+    const { state: { mensajes } } = useContext(ChatContext)
+    const { usuario } = useContext(AuthContext)
+
+    const id = usuario!.id
+
     return (
         <>
             <div className="mesgs">
 
                 {/* <!-- Historia inicio --> */}
                 <div className="msg_history">
-                    <MessageItem
-                        body='Hello'
-                        timestamp='11:01 AM | June 9'
-                    />
-                    <MessageItem
-                        body='Hello'
-                        timestamp='11:01 AM | June 9'
-                        avatar='https://picsum.photos/300'
-                    />
-                    <MessageItem
-                        body='Hello'
-                        timestamp='11:01 AM | June 9'
-                        avatar='https://picsum.photos/300'
-                    />
-                    <MessageItem
-                        body='Hello'
-                        timestamp='11:01 AM | June 9'
-                        avatar='https://picsum.photos/300'
-                    />
+                    {
+                        mensajes.map((e) => (
+                            <MessageItem
+                                key={e.id}
+                                body={e.body}
+                                timestamp={e.updatedAt}
+                                isSender={e.senderId === id}
+                            />
 
-
-
+                        ))
+                    }
 
                 </div>
                 {/* <!-- Historia Fin --> */}

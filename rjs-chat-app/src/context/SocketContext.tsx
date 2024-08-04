@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect } from "react";
 import type { Socket } from "socket.io-client";
 import { getEnvs } from "../core/helpers";
-import { Usuario } from "../core/interfaces";
+import type { Usuario } from "../core/interfaces";
 import { useSocket } from "../hooks";
 import { AuthContext } from "./AuthContext";
 import { ChatContext } from "./chat/ChatContext";
@@ -38,6 +38,9 @@ export const SocketProvider = ({ children }: any) => {
     useEffect(() => {
         socket?.on('chat:mensaje-personal', (mensaje) => {
             console.log({ mensaje });
+            mensaje.createdAt = new Date(mensaje.createdAt)
+            console.log(mensaje);
+            dispatch({ type: 'set-nuevo-mensaje', payload: mensaje })
         })
     }, [socket, dispatch])
 
