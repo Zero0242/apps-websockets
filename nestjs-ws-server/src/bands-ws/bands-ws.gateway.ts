@@ -11,7 +11,7 @@ import { Server, Socket } from 'socket.io';
 import { BandsWsService } from './bands-ws.service';
 import { UpdateBandsDTO } from './dto';
 
-@WebSocketGateway()
+@WebSocketGateway({ namespace: 'bands' })
 export class BandsWsGateway
   implements OnGatewayConnection, OnGatewayDisconnect
 {
