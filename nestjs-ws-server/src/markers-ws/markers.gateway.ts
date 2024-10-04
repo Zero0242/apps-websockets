@@ -1,7 +1,7 @@
-import { OnModuleInit } from '@nestjs/common';
 import {
   ConnectedSocket,
   MessageBody,
+  OnGatewayConnection,
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
@@ -10,13 +10,13 @@ import { Server, Socket } from 'socket.io';
 import { CreateMarkerDto, UpdateMarkerDto } from './dto';
 import { MarkersService } from './markers.service';
 
-@WebSocketGateway({ namespace: 'markers' })
-export class MarkersGateway implements OnModuleInit {
+@WebSocketGateway({ namespace: 'markers', cors: '*' })
+export class MarkersGateway implements OnGatewayConnection {
   constructor(private readonly markersService: MarkersService) {}
   @WebSocketServer()
   server: Server;
 
-  onModuleInit() {
+  handleConnection() {
     this.server.emit('marker:get', this.markersService.findAll());
   }
 
@@ -29,12 +29,12 @@ export class MarkersGateway implements OnModuleInit {
     client.broadcast.emit('marker:create', marker);
   }
 
-  @SubscribeMessage('marker:move')
+  @SubscribeMessage('marker:update')
   updateMarker(
-    @MessageBody() updateDto: UpdateMarkerDto,
+    @MessageBody() marker: UpdateMarkerDto,
     @ConnectedSocket() client: Socket,
   ) {
-    this.markersService.update(updateDto);
-    client.broadcast.emit('marker:move', updateDto);
+    this.markersService.update(marker);
+    client.broadcast.emit('marker:update', marker);
   }
 }

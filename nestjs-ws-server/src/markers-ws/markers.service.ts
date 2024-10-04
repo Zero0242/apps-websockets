@@ -10,18 +10,14 @@ export class MarkersService {
     return this.marcadores;
   }
 
-  create({ lat, lng }: CreateMarkerDto) {
-    const marker = new Marker(lat, lng);
+  create({ lat, lng, id }: CreateMarkerDto) {
+    const marker = new Marker(id, lat, lng);
     this.marcadores[marker.id] = marker;
 
     return marker;
   }
 
-  update(updateMarkerDto: UpdateMarkerDto) {
-    const marker: Marker = updateMarkerDto;
-
+  update(marker: UpdateMarkerDto) {
     this.marcadores[marker.id] = marker;
-
-    return marker;
   }
 }
