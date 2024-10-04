@@ -1,35 +1,39 @@
+import { Logger } from '@nestjs/common';
 import {
+  ConnectedSocket,
   MessageBody,
+  OnGatewayConnection,
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
 } from '@nestjs/websockets';
-import { Server } from 'socket.io';
+import { Server, Socket } from 'socket.io';
 import { TicketsService } from './tickets.service';
 
-@WebSocketGateway({ namespace: 'colas' })
-export class TicketsGateway {
+@WebSocketGateway({ namespace: 'tickets', cors: '*' })
+export class TicketsGateway implements OnGatewayConnection {
   @WebSocketServer()
   private readonly wss: Server;
+  private readonly logger = new Logger('TicketsWebSocket');
 
   constructor(private readonly ticketsService: TicketsService) {}
 
-  @SubscribeMessage('ticket:siguiente')
-  getNextTicket(@MessageBody() { payload, callback }: any) {
-    const nuevoTicket = this.ticketsService.crearTicket();
-    // ? Ejecutamos un callback del frontend
-    callback(nuevoTicket);
+  handleConnection(client: Socket) {
+    this.logger.log(`Se ha conectado ${client.id}`);
   }
 
   @SubscribeMessage('ticket:solicitar')
-  getNewTicket(@MessageBody() { payload, callback }: any) {
+  getNextTicket() {
+    const nuevoTicket = this.ticketsService.crearTicket();
+  }
+
+  @SubscribeMessage('ticket:siguiente')
+  getNewTicket(@MessageBody() payload: any, @ConnectedSocket() client: Socket) {
     const { agente, escritorio } = payload as {
       agente: string;
       escritorio: number;
     };
     const suTicket = this.ticketsService.asignarTicket(agente, +escritorio);
-    // * Tomar el callback
-    callback(suTicket);
     // * Notificar usuario
     this.wss.emit('ticket:listado', this.ticketsService.ultimos13);
   }
