@@ -3,6 +3,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { BandsWsModule } from './bands-ws/bands-ws.module';
 import { MarkersModule } from './markers-ws/markers.module';
+import { TicketsModule } from './tickets-ws/tickets.module';
 
 @Module({
   imports: [
@@ -11,6 +12,7 @@ import { MarkersModule } from './markers-ws/markers.module';
     }),
     BandsWsModule,
     MarkersModule,
+    TicketsModule,
   ],
   controllers: [],
   providers: [],
