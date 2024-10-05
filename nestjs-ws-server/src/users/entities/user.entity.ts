@@ -16,4 +16,9 @@ export class User {
 
   @Column({ default: true, type: 'boolean' })
   online: boolean;
+
+  sanitize() {
+    const { password, ...data } = this;
+    return data;
+  }
 }

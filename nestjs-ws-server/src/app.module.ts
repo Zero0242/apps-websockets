@@ -7,6 +7,7 @@ import { envs } from './config';
 import { MarkersModule } from './markers-ws/markers.module';
 import { TicketsModule } from './tickets-ws/tickets.module';
 import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { UsersModule } from './users/users.module';
     MarkersModule,
     TicketsModule,
     UsersModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
