@@ -2,12 +2,13 @@ import { Module } from '@nestjs/common';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
+import { AuthModule } from './auth/auth.module';
 import { BandsWsModule } from './bands-ws/bands-ws.module';
 import { envs } from './config';
 import { MarkersModule } from './markers-ws/markers.module';
+import { MessagesModule } from './messages/messages.module';
 import { TicketsModule } from './tickets-ws/tickets.module';
 import { UsersModule } from './users/users.module';
-import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { AuthModule } from './auth/auth.module';
     BandsWsModule,
     MarkersModule,
     TicketsModule,
+    MessagesModule,
     UsersModule,
     AuthModule,
   ],

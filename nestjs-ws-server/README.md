@@ -15,3 +15,7 @@ Aplicacion de colas de atencion al cliente
 ### 3. Mapas App OK
 
 Aplicacion de seguimiento de marcadores en el mapa
+
+### 4. Chat app
+
+Relacion User + Messages deben ser registradas a la misma vez en base de datos
