@@ -14,7 +14,7 @@ export class User {
   @Column()
   password: string;
 
-  @Column({ default: true, type: 'boolean' })
+  @Column({ default: false, type: 'boolean' })
   online: boolean;
 
   sanitize() {
