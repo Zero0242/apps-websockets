@@ -1,6 +1,5 @@
 import { Logger } from '@nestjs/common';
 import {
-  ConnectedSocket,
   MessageBody,
   OnGatewayConnection,
   SubscribeMessage,
@@ -8,6 +7,7 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
+import { NextTicketDto } from './dto';
 import { TicketsService } from './tickets.service';
 
 @WebSocketGateway({ namespace: 'tickets', cors: '*' })
@@ -25,16 +25,16 @@ export class TicketsGateway implements OnGatewayConnection {
   @SubscribeMessage('ticket:solicitar')
   getNextTicket() {
     const nuevoTicket = this.ticketsService.crearTicket();
+    return nuevoTicket;
   }
 
   @SubscribeMessage('ticket:siguiente')
-  getNewTicket(@MessageBody() payload: any, @ConnectedSocket() client: Socket) {
-    const { agente, escritorio } = payload as {
-      agente: string;
-      escritorio: number;
-    };
+  getNewTicket(@MessageBody() payload: NextTicketDto) {
+    const { agente, escritorio } = payload;
     const suTicket = this.ticketsService.asignarTicket(agente, +escritorio);
     // * Notificar usuario
     this.wss.emit('ticket:listado', this.ticketsService.ultimos13);
+
+    return suTicket;
   }
 }
