@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  nest_chat_dev:
+    container_name: nest_chat_dev
+    build:
+      context: .
+      dockerfile: ./dockerfile.dev
+    volumes:
+      - ./src:/usr/src/app/src
+    command: "yarn start:dev"
+    ports:
+      - "3000:3000"

@@ -1,0 +1,29 @@
+FROM node:21-alpine3.20 as dev
+WORKDIR /usr/src/app
+COPY package*.json ./
+COPY yarn.lock ./
+RUN yarn install
+
+FROM node:21-alpine3.20 as build
+WORKDIR /usr/src/app
+COPY --from=dev /usr/src/app/node_modules ./node_modules
+COPY . .
+RUN yarn build
+
+FROM node:21-alpine3.20 as prod
+WORKDIR /usr/src/app
+COPY package*.json ./
+COPY yarn.lock ./
+RUN yarn install --prod
+
+FROM node:21-alpine3.20 as runner
+WORKDIR /usr/src/app
+COPY --from=prod /usr/src/app/node_modules ./node_modules
+COPY --from=build /usr/src/app/dist ./dist
+COPY public/ ./public
+ENV PORT=3000
+ENV JWT_SECRET="very_secure_secret"
+ENV JWT_DURATION="20min"
+ENV DATABASE_URL=database/dev.db
+EXPOSE 3000
+CMD ["node","dist/main.js"]
