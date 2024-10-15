@@ -8,8 +8,10 @@ import {
 import { GetUser } from 'src/auth/decorators';
 import { JWTAuthGuard } from 'src/auth/guards';
 import { MessagesService } from './messages.service';
+import { ApiTags } from '@nestjs/swagger';
 
 @UseGuards(JWTAuthGuard)
+@ApiTags('mensajes')
 @Controller('mensajes')
 export class MessagesController {
   constructor(private readonly messageService: MessagesService) {}
