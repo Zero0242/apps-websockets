@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  websocket_server:
+    container_name: websocket_server
+    image: zero0242/nestjs_websocket_apps:1.0.0
+    build: ./nestjs-ws-server
+    ports:
+      - "8000:3000"
+
+  # ==========
+  # Frontends
+  # ==========
+  react_markers_web:
+    container_name: react_markers_web
+    image: zero0242/react_markers_web:1.0.0
+    build:
+      context: ./rjs-map-app
+      dockerfile: dockerfile
+      args:
+        VITE_SOCKET_HOST: "http://127.0.0.1:8000/markers"
+    ports:
+      - "3000:80"
+
+  react_tickets_web:
+    container_name: react_tickets_web
+    image: zero0242/react_tickets_web:1.0.0
+    build:
+      context: ./rjs-colas-ws
+      dockerfile: dockerfile
+      args:
+        VITE_SOCKET_HOST: "http://127.0.0.1:8000/tickets"
+        VITE_API_HOST: "http://127.0.0.1:8000"
+    ports:
+      - "3001:80"
+
+  react_bands_web:
+    container_name: react_bands_web
+    image: zero0242/react_bands_web:1.0.0
+    build:
+      context: ./rjs-band-names
+      dockerfile: dockerfile
+      args:
+        VITE_SOCKET_HOST: "http://127.0.0.1:8000/bands"
+    ports:
+      - "3002:80"
