@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  react_bands_web:
+    # Construye la imagen, le pasamos los argumentos en el momento del build
+    build:
+      context: .
+      dockerfile: dockerfile
+      args:
+        VITE_SOCKET_HOST: ${VITE_SOCKET_HOST}
+    image: zero0242/react_bands_web:1.0.0
+    container_name: react_bands_web
+    ports:
+      - "3001:80"
