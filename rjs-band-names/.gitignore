@@ -27,3 +27,4 @@ dist-ssr
 # Entorno
 .env
 package-lock.json
+!yarn.lock
