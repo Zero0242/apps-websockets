@@ -1,0 +1,99 @@
+{
+	"info": {
+		"_postman_id": "81dc31c2-3ccd-412a-bb14-9730886ac8fe",
+		"name": "MONOServer",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39618886",
+		"_collection_link": "https://red-meadow-788566.postman.co/workspace/Team-Workspace~120b6295-cd67-4a07-83ca-3074cb109706/collection/39618886-81dc31c2-3ccd-412a-bb14-9730886ac8fe?action=share&source=collection_link&creator=39618886"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "Refresh Token",
+					"request": {
+						"auth": {
+							"type": "bearer"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzMzNDMxNDYyLCJleHAiOjE3MzM0MzI2NjJ9.Q10yXj3lbNNTUNIYeNzmoVrO-eZMYSXv6H6JEahZsxc",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/api/auth",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"auth"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\":\"Postman\",\n    \"email\":\"postman@gmail.com\",\n    \"password\":\"Postman#1234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/auth/register",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{    \n    \"email\":\"postman@gmail.com\",\n    \"password\":\"Postman#1234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/auth/login",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

@@ -25,9 +25,13 @@ export class MessagesGateway implements OnGatewayConnection {
   ) {}
 
   async handleConnection(client: Socket) {
+    // Desconectar si no existe el token ni el jwtpayload
     const token = client.handshake.auth['ws-token'];
+    if (!token) {
+      return client.disconnect();
+    }
     const jwtPayload = this.jwtService.decode<JWTPayload>(token);
-    if (jwtPayload) {
+    if (!jwtPayload) {
       return client.disconnect();
     }
     const uid = jwtPayload.id;
