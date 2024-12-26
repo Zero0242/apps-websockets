@@ -10,11 +10,11 @@ import { Message } from '../../messages/entities/message.entity';
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
-  nombre: string;
+  name: string;
 
   @Column({ unique: true })
   email: string;
@@ -40,7 +40,7 @@ export class User {
 
   /* Metodos */
   sanitize() {
-    const { password, ...data } = this;
-    return data;
+    const { password, ...values } = this;
+    return values;
   }
 }

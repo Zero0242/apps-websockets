@@ -36,7 +36,7 @@ export class MessagesGateway implements OnGatewayConnection {
     }
     const uid = jwtPayload.id;
     const usuario = await this.messagesService.connectUser(uid);
-    this.logger.log(`Usuario: ${usuario.nombre}`);
+    this.logger.log(`Usuario: ${usuario.name}`);
     client.join(usuario.id);
 
     this.server.emit(
@@ -59,9 +59,17 @@ export class MessagesGateway implements OnGatewayConnection {
     @MessageBody() createMessageDto: CreateMessageDto,
   ) {
     const mensaje = await this.messagesService.createMessage(createMessageDto);
+    console.log({ createMessageDto, mensaje });
+
     this.server
       .to(createMessageDto.to)
       .to(createMessageDto.from)
-      .emit('chat:mensaje-personal', mensaje);
+      .emit('chat:mensaje-personal', {
+        id: mensaje.id,
+        senderId: createMessageDto.from,
+        recipientId: createMessageDto.to,
+        message: createMessageDto.message,
+        ...mensaje,
+      });
   }
 }
