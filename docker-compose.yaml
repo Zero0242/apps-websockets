@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   websocket_server:
+    restart: unless-stopped
     container_name: websocket_server
     image: zero0242/nestjs_websocket_apps:1.0.0
     build: ./nestjs-ws-server
@@ -12,6 +13,7 @@ services:
   # Frontends
   # ==========
   react_markers_web:
+    restart: unless-stopped
     container_name: react_markers_web
     image: zero0242/react_markers_web:1.0.0
     build:
@@ -23,6 +25,7 @@ services:
       - "3000:80"
 
   react_tickets_web:
+    restart: unless-stopped
     container_name: react_tickets_web
     image: zero0242/react_tickets_web:1.0.0
     build:
@@ -35,6 +38,7 @@ services:
       - "3001:80"
 
   react_bands_web:
+    restart: unless-stopped
     container_name: react_bands_web
     image: zero0242/react_bands_web:1.0.0
     build:
@@ -44,3 +48,16 @@ services:
         VITE_SOCKET_HOST: "http://127.0.0.1:8000/bands"
     ports:
       - "3002:80"
+
+  react_chat_web:
+    restart: unless-stopped
+    container_name: react_chat_web
+    image: zero0242/react_chat_web:1.0.0
+    build:
+      context: ./rjs-chat-app
+      dockerfile: dockerfile
+      args:
+        VITE_API_URL: "http://127.0.0.1:8000"
+        VITE_CHAT_URL: "http://127.0.0.1:8000/chat"
+    ports:
+      - "3003:80"
