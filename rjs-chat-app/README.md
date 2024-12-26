@@ -1,30 +1,50 @@
-# React + TypeScript + Vite
+<p align="center">
+  <a href="https://react.dev/" target="blank">
+  <img src="https://cdn.hashnode.com/res/hashnode/image/upload/v1647490619965/P1dsNgj-f1.png" width="200" alt="App Logo" /></a>
+</p>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Proyecto Chat
 
-Currently, two official plugins are available:
+Chat creado en reactjs
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+> Creado en React con vite
 
-## Expanding the ESLint configuration
+## DEV
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+1. Clonar repositorio con `git clone`
+2. Copiar los valores de `.env.example` a `.env`
+3. Instalar los paquetes de React con `npm install`
+4. Ejecutar el proyecto con `npm run start`
 
-- Configure the top-level `parserOptions` property like this:
+## Requisitos
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json', './tsconfig.app.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+1. Tener instalado NodeJS
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Scripts
+
+Algunos scripts que pueden ser utilizados
+
+| Comando         | Descripcion              |
+| --------------- | ------------------------ |
+| `npm install`   | Instala las dependencias |
+| `npm run build` | Compila la web           |
+| `npm run dev`   | Inicia el modo debug     |
+
+#### Otros Scripts
+
+Otros scripts que pueden usar para fines de desarrollo, (acciones de paquetes)
+
+| Comando | Descripcion                                                                |
+| ------- | -------------------------------------------------------------------------- |
+| `....`  | Insertar scripts que usen los paquetes de terceros si es necesario hacerlo |
+
+## Documentacion
+
+Links de librerias utilizadas
+
+- [React JS](https://react.dev/)
+- [TailwindCSS](https://tailwindcss.com/docs/installation)
+- [React Router](https://reactrouter.com/)
+- [Zustand](https://zustand-demo.pmnd.rs/)
+- [Tanstack Query](https://tanstack.com/query/latest)
+- [Shadcn](https://ui.shadcn.com/)

@@ -14,7 +14,7 @@ interface ContextProps {
 export const SocketContext = createContext({} as ContextProps)
 
 export const SocketProvider = ({ children }: any) => {
-    const { online, socket, conectar, desconectar } = useSocket(getEnvs().API_URL)
+    const { online, socket, conectar, desconectar } = useSocket(getEnvs().API_CHAT)
     const { status } = useContext(AuthContext)
     const { dispatch } = useContext(ChatContext)
 
@@ -32,7 +32,12 @@ export const SocketProvider = ({ children }: any) => {
 
     useEffect(() => {
         socket?.on('chat:usuarios', (usuarios) => {
-            dispatch({ type: 'set-usuarios', payload: usuarios as Usuario[] })
+            usuarios = (usuarios as Usuario[]).map(e => ({
+                ...e,
+                avatar: `https://picsum.photos/200`
+            }))
+
+            dispatch({ type: 'set-usuarios', payload: usuarios })
         })
     }, [socket, dispatch])
     useEffect(() => {

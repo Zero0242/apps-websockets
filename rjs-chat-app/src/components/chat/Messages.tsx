@@ -19,7 +19,7 @@ export const Messages = () => {
                         mensajes.map((e) => (
                             <MessageItem
                                 key={e.id}
-                                body={e.body}
+                                body={e.message}
                                 timestamp={e.updatedAt}
                                 isSender={e.senderId === id}
                             />

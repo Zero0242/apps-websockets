@@ -14,7 +14,7 @@ export const MessageBar = () => {
 
         console.log(`message ${message}`);
 
-        const emition = { de: usuario!.id, para: activeChat!, body: message }
+        const emition = { from: usuario!.id, to: activeChat!, message: message }
 
         socket?.emit('chat:mensaje-personal', emition)
 

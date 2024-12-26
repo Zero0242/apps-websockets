@@ -8,7 +8,7 @@ interface Options {
 
 export async function registerUseCase({ email, name, password }: Options) {
 	try {
-		const resp = await mensajesApi.post("/api/auth/registrar", {
+		const resp = await mensajesApi.post("/api/auth/register", {
 			body: JSON.stringify({ password, email, name }),
 			headers: { "Content-Type": "application/json" },
 		});

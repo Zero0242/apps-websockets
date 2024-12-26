@@ -2,14 +2,14 @@ import type { Mensaje, Usuario } from "../../core/interfaces";
 
 export interface ChatState {
 	uid: number;
-	activeChat: number | undefined;
+	activeChat: string | undefined;
 	usuarios: Usuario[];
 	mensajes: Mensaje[];
 }
 
 export type ChatAction =
 	| { type: "remove-cache" }
-	| { type: "set-active-chat"; payload: number }
+	| { type: "set-active-chat"; payload: string }
 	| { type: "set-usuarios"; payload: Usuario[] }
 	| { type: "set-mensajes"; payload: Mensaje[] }
 	| { type: "set-nuevo-mensaje"; payload: Mensaje };

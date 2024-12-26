@@ -13,7 +13,7 @@ export async function loginUseCase(email: string, password: string) {
 		const data = (await resp.json()) as ILoginResponse;
 		localStorage.setItem("authToken", data.token);
 
-		return { ok: true, usuario: data.usuario };
+		return { ok: true, usuario: data.user };
 	} catch (error) {
 		return { ok: false };
 	}

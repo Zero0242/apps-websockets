@@ -10,7 +10,7 @@ export function SideBar() {
     const { dispatch, state } = useContext(ChatContext)
     const { usuarios, activeChat } = state
 
-    const setActive = async (id: number) => {
+    const setActive = async (id: string) => {
         if (activeChat === id) return;
         dispatch({ type: 'set-active-chat', payload: id })
 

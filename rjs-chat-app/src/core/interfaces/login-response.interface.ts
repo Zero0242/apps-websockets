@@ -1,10 +1,10 @@
 export interface ILoginResponse {
-	usuario: Usuario;
+	user: Usuario;
 	token: string;
 }
 
 export interface Usuario {
-	id: number;
+	id: string;
 	email: string;
 	name: string;
 	avatar: string;

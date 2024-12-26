@@ -1,13 +1,10 @@
-export interface ChatResponse {
-	ok: boolean;
-	mensajes: Mensaje[];
-}
+export interface ChatResponse extends Mensaje {}
 
 export interface Mensaje {
-	id: number;
-	senderId: number;
-	recipientId: number;
-	body: string;
+	id: string;
+	senderId: string;
+	recipientId: string;
+	message: string;
 	attachment: null;
 	createdAt: Date;
 	updatedAt: Date;
