@@ -29,7 +29,9 @@ Aplicacion de espera en cola y numeros, con antdesign
 
 # Docker
 
-Levanta el server y 3 demostraciones de webs conectadas al servidor
+1. Configurar los valores de entorno
+
+2. Levanta el server y 3 demostraciones de webs conectadas al servidor
 
 - `http://localhost:3000` mapa en tiempo real
 - `http://localhost:3001` aplicacion de colas de espera

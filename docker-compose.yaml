@@ -1,6 +1,9 @@
 version: '3.8'
 
 services:
+  # ==========
+  # Backend
+  # ==========
   websocket_server:
     restart: unless-stopped
     container_name: websocket_server
@@ -8,6 +11,14 @@ services:
     build: ./nestjs-ws-server
     ports:
       - "8000:3000"
+    environment:
+      DATABASE_HOST: maria_database
+      DATABASE_PORT: 3306
+      DATABASE_USER: ${DATABASE_USER}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      DATABASE_NAME: ${DATABASE_NAME}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_DURATION: ${JWT_DURATION}
 
   # ==========
   # Frontends
@@ -61,3 +72,22 @@ services:
         VITE_CHAT_URL: "http://127.0.0.1:8000/chat"
     ports:
       - "3003:80"
+  # ==========
+  # Servicios
+  # ==========
+  database:
+    container_name: maria_database
+    ports:
+      - 3306:3306
+    image: mariadb:jammy
+    volumes:
+      - database-data:/var/lib/mysql
+    environment:
+      MARIADB_USER: ${DATABASE_USER}
+      MARIADB_PASSWORD: ${DATABASE_PASSWORD}
+      MARIADB_DATABASE: ${DATABASE_NAME}
+      MARIADB_ROOT_PASSWORD: 123456
+
+volumes:
+  database-data:
+    external: false
