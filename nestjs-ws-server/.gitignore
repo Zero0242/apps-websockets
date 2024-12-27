@@ -37,10 +37,11 @@ lerna-debug.log*
 
 # NPM
 
-yarn.lock
 package-lock.json
 
 # ENV
 .env
 database/
 *.db
+
+.devcontainer/

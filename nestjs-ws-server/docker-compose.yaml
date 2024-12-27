@@ -1,0 +1,17 @@
+services:
+  database:
+    container_name: maria_database
+    ports:
+      - 3306:3306
+    image: mariadb:jammy
+    volumes:
+      - database-data:/var/lib/mysql
+    environment:
+      MARIADB_USER: ${DATABASE_USER}
+      MARIADB_PASSWORD: ${DATABASE_PASSWORD}
+      MARIADB_DATABASE: ${DATABASE_NAME}
+      MARIADB_ROOT_PASSWORD: 123456
+
+volumes:
+  database-data:
+    external: false

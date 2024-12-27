@@ -13,8 +13,12 @@ import { UsersModule } from './users/users.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      type: 'sqlite',
-      database: envs.DATABASE_URL,
+      type: 'mariadb',
+      host: envs.DATABASE_HOST,
+      port: envs.DATABASE_PORT,
+      username: envs.DATABASE_USER,
+      password: envs.DATABASE_PASSWORD,
+      database: envs.DATABASE_NAME,
       // * Tablas
       entities: [__dirname + '**/*.entity{.ts,.js}'],
       // * Solo en modo dev

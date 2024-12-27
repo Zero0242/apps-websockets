@@ -1,5 +1,9 @@
-database/
+# VSCode
+.vscode/
+.devcontainer/
+# NodeJS
 dist/
 node_modules/
-.env/
-.vscode/
+# Configuraciones
+database/
+.env
