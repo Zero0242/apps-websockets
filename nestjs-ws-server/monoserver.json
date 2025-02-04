@@ -20,7 +20,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzMzNDMxNDYyLCJleHAiOjE3MzM0MzI2NjJ9.Q10yXj3lbNNTUNIYeNzmoVrO-eZMYSXv6H6JEahZsxc",
+								"value": "Bearer <some_very_secure_test_credential>",
 								"type": "text"
 							}
 						],
