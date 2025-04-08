@@ -24,6 +24,8 @@ services:
   # Frontends
   # ==========
   react_markers_web:
+    profiles:
+      - frontend
     restart: unless-stopped
     container_name: react_markers_web
     image: zero0242/react_markers_web:1.0.0
@@ -36,6 +38,8 @@ services:
       - "3000:80"
 
   react_tickets_web:
+    profiles:
+      - frontend
     restart: unless-stopped
     container_name: react_tickets_web
     image: zero0242/react_tickets_web:1.0.0
@@ -49,6 +53,8 @@ services:
       - "3001:80"
 
   react_bands_web:
+    profiles:
+      - frontend
     restart: unless-stopped
     container_name: react_bands_web
     image: zero0242/react_bands_web:1.0.0
@@ -61,6 +67,8 @@ services:
       - "3002:80"
 
   react_chat_web:
+    profiles:
+      - frontend
     restart: unless-stopped
     container_name: react_chat_web
     image: zero0242/react_chat_web:1.0.0
@@ -76,6 +84,7 @@ services:
   # Servicios
   # ==========
   database:
+    restart: unless-stopped
     container_name: maria_database
     ports:
       - 3306:3306
@@ -87,6 +96,19 @@ services:
       MARIADB_PASSWORD: ${DATABASE_PASSWORD}
       MARIADB_DATABASE: ${DATABASE_NAME}
       MARIADB_ROOT_PASSWORD: 123456
+
+  database_panel:
+    depends_on:
+      - database
+    profiles:
+      - debug
+    restart: unless-stopped
+    container_name: phpmyadmin_panel
+    ports:
+      - 8080:80
+    image: phpmyadmin:5.2.0-apache
+    environment:
+      - PMA_ARBITRARY=1
 
 volumes:
   database-data:

@@ -2,46 +2,45 @@
 
 Aplicaciones con websockets creada en el curso de [React: Aplicaciones en tiempo real con Socket-io](https://www.udemy.com/course/react-socket-io-fernando)
 
-# Express WS Server
+# Docker Dev
 
-Servidor con las funcionalidades
+> Referencia a perfiles en docker [link](https://docs.docker.com/compose/how-tos/profiles/)
 
-1. Aplicacion de nombres de bandas
-2. Aplicacion de colas
-3. Aplicacion de mapas
-4. Aplicacion de chat
+1. Configurar el archivo `.env` con valores referenciados en `.env.example`
 
-# React Band
+2. Levantar los servicios a utilizar, ejemplos abajo:
 
-App simple para probar nombres de bandas
+| Comando                                                   | Descripción                               |
+| --------------------------------------------------------- | ----------------------------------------- |
+| `docker compose up -d`                                    | Levantar backend (server y base de datos) |
+| `docker compose --profile debug up -d`                    | Levantar backend + phpmyadmin             |
+| `docker compose --profile frontend up -d`                 | Levantar backend + frontends              |
+| `docker compose --profile frontend --profile debug up -d` | Levantar todos los servicios              |
+| `docker compose down`                                     | Bajar los servicios                       |
+| `docker compose down --remove-orphans`                    | Bajar los servicios activos e inactivos   |
+| `docker compose down --volumes`                           | Bajar los servicios y datos generados     |
 
-# React Chat
+<br>
+<br>
+<br>
 
-Aplicacion de un chat con login hecha en react con typescript
+# Apps Habilitadas
 
-# React Mapas
+### Backend
 
-App de marcadores en tiempo real usando leafleft maps.
+| URL                         | Description           |
+| --------------------------- | --------------------- |
+| `http://localhost:8000`     | servidor base con ws  |
+| `http://localhost:8000/api` | documentacion del api |
+| `http://localhost:8080`     | (debug) phpmyadmin    |
 
-# React Colas
+> datos de acceso de phpmyadmin, nombre del servidor: `maria_database`, user y pass del `.env`
 
-Aplicacion de espera en cola y numeros, con antdesign
+### Frontend
 
-# Docker
-
-1. Configurar los valores de entorno
-
-2. Levanta el server y 3 demostraciones de webs conectadas al servidor
-
-- `http://localhost:3000` mapa en tiempo real
-- `http://localhost:3001` aplicacion de colas de espera
-- `http://localhost:3002` votacion de bandas en tiempo real
-- `http://localhost:3003` demostración de un mapa en tiempo real
-- `http://localhost:8000` servidor
-
-```bash
-# Levantar la demostración completa
-$ docker compose up -d
-# Levantar solo el servidor
-$ docker compose up -d websocket_server
-```
+| URL                     | Description                            |
+| ----------------------- | -------------------------------------- |
+| `http://localhost:3000` | mapa en tiempo real                    |
+| `http://localhost:3001` | aplicacion de colas de espera          |
+| `http://localhost:3002` | votacion de bandas en tiempo real      |
+| `http://localhost:3003` | demostración de un mapa en tiempo real |
